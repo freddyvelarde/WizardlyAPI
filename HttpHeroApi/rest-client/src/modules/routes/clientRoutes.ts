@@ -1,4 +1,5 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
+import clientControllers from "../controllers/clientControllers";
 
 class ClientRoutes {
   public router: Router;
@@ -9,9 +10,7 @@ class ClientRoutes {
   }
 
   private configureRoutes(): void {
-    this.router.get("/", (_req: Request, res: Response) => {
-      res.send({ message: "hello world from docker and OOP" });
-    });
+    this.router.get("/", clientControllers.indexRoute);
   }
 }
 
