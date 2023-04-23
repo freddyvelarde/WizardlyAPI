@@ -11,19 +11,19 @@ services:
     networks:
       - httphero-network
 
-  flask:
-    container_name: flask-request
+  express:
+    container_name: rest-client
     build:
-      context: ./HttpHeroApi/request
+      context: ./HttpHeroApi/rest-client
       dockerfile: Dockerfile.dev
-    volumes:
-      - ./HttpHeroApi/request:/app
     ports:
-      - "8001:5000"
+      - "8000:8000"
+    environment:
+      PORT: 8000
     networks:
       - httphero-network
-    environment:
-      PORT: 5000
+    volumes:
+      - ./HttpHeroApi/rest-client:/app
 
 networks:
   httphero-network:
