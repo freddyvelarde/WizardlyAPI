@@ -17,7 +17,7 @@ class App {
   }
 
   private configureRoutes(): void {
-    this.app.use("/", clientRoutes);
+    this.app.use(clientRoutes);
   }
 
   public runServer(): void {
