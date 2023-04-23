@@ -10,7 +10,8 @@ class ClientRoutes {
   }
 
   private configureRoutes(): void {
-    this.router.get("/", clientControllers.indexRoute);
+    this.router.get("/hello", clientControllers.hello);
+    this.router.post("/", clientControllers.request);
   }
 }
 

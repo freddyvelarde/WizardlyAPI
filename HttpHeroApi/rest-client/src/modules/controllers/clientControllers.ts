@@ -1,8 +1,18 @@
 import { Request, Response } from "express";
+import BodyRequest from "../../interfaces/bodyRequest";
 
 class ClientControllers {
-  public indexRoute(_req: Request, res: Response) {
+  public hello(_req: Request, res: Response) {
     res.send({ message: "hello world dude I am coding a OOP project" });
+  }
+
+  public request(req: Request, res: Response) {
+    try {
+      const BODY: BodyRequest = req.body;
+      res.status(200).json(BODY);
+    } catch (error) {
+      res.status(500).json({ error: error });
+    }
   }
 }
 
