@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import BodyRequest from "../../interfaces/bodyRequest";
+import BodyRequest from "@/interfaces/bodyRequest";
 import { getRequest } from "./helpers/requester";
 
 class ClientControllers {

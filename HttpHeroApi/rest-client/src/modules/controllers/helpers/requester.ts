@@ -1,5 +1,5 @@
 import axios from "axios";
-import BodyRequest from "../../../interfaces/bodyRequest";
+import BodyRequest from "@/interfaces/bodyRequest";
 
 interface RequestsResponse {
   failed: boolean;
