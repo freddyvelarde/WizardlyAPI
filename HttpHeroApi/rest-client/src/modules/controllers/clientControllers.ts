@@ -3,7 +3,7 @@ import BodyRequest from "../../interfaces/bodyRequest";
 
 class ClientControllers {
   public hello(_req: Request, res: Response) {
-    res.send({ message: "hello world dude I am coding a OOP project" });
+    res.send({ message: "hello world" });
   }
 
   public request(req: Request, res: Response) {
