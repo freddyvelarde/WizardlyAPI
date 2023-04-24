@@ -14,7 +14,7 @@ services:
   express:
     container_name: rest-client
     build:
-      context: ./HttpHeroApi/rest-client
+      context: ./HttpHeroApi
       dockerfile: Dockerfile.dev
     ports:
       - "8000:8000"
@@ -24,7 +24,7 @@ services:
     networks:
       - httphero-network
     volumes:
-      - ./HttpHeroApi/rest-client:/app
+      - ./HttpHeroApi:/app
 
 networks:
   httphero-network:
