@@ -1,5 +1,13 @@
-# HttpHero
+# WizardlyAPI
 
-Hey there! HttpHero is a cool new API testing tool that's like Postman, but without all the extra bells and whistles. It's perfect for developers who want a simple and efficient way to test APIs without being overwhelmed by features they don't need. With HttpHero, you can easily create and send HTTP requests, check out responses, and organize requests into collections. It's user-friendly, works with a wide range of HTTP methods and formats, and is great for testing both simple and complex APIs. Give HttpHero a try and see for yourself!
+WizardlyAPI is a user-friendly tool for developers to test, document and manage APIs. With an intuitive interface, users can easily make API requests, create and save collections, and share API documentation with their team. WizardlyAPI simplifies the API development process and helps developers save time and improve productivity.
 
 ## Get Started
+
+If you want to run this project on your own machine then run the next command:
+
+```bash
+docker compose -f docker-compose-dev.yml up
+```
+
+> If you don't use docker so up the server one by one.
