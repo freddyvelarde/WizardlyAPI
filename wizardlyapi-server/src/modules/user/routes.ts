@@ -16,5 +16,3 @@ export class UserRoutes {
     // this.router.get("/", clientControllers.index);
   }
 }
-
-// export default new ClientRoutes().router;
