@@ -1,7 +1,7 @@
 import express, { Application } from "express";
 import morgan from "morgan";
-import clientRoutes from "./modules/user/routes/userRoutes";
 import cors from "cors";
+import { UsersModule } from "./modules/user/init";
 
 class App {
   public app: Application;
@@ -9,7 +9,8 @@ class App {
   constructor() {
     this.app = express();
     this.configureMiddlewares();
-    this.configureRoutes();
+    // this.configureRoutes();
+    this.initModules();
   }
 
   private configureMiddlewares(): void {
@@ -18,8 +19,12 @@ class App {
     this.app.use(cors());
   }
 
-  private configureRoutes(): void {
-    this.app.use("/users", clientRoutes);
+  // private configureRoutes(): void {
+  //   this.app.use("/users", clientRoutes);
+  // }
+
+  private initModules() {
+    const UM = new UsersModule(this.app);
   }
 
   public runServer(): void {

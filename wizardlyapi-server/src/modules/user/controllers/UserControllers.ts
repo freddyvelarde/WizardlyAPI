@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-class ClientControllers {
+export class UserControllers {
   public async getUsers(_req: Request, res: Response) {
     res.send("all users");
   }
@@ -15,5 +15,3 @@ class ClientControllers {
     }
   }
 }
-
-export default new ClientControllers();
