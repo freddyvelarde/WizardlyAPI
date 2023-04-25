@@ -2,7 +2,6 @@ import JwtHandler from "../middlewares/jwt.handler";
 
 describe("JwtHandler", () => {
   let jwtHandler: JwtHandler;
-  let jwtResponse: {};
 
   beforeEach(() => {
     jwtHandler = new JwtHandler();
@@ -14,7 +13,6 @@ describe("JwtHandler", () => {
       expect(result.failed).toBe(false);
       expect(result.message).toBe("Token generated successfully");
       expect(result.token).toBeDefined();
-      jwtResponse = result;
     });
   });
 });
