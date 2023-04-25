@@ -1,9 +1,21 @@
 import { Request, Response } from "express";
 import BodyRequest from "@/interfaces/bodyRequest";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 class ClientControllers {
-  public hello(_req: Request, res: Response) {
-    res.send({ message: "hello world" });
+  public async hello(_req: Request, res: Response) {
+    // await prisma.users.create({
+    //   data: {
+    //     username: "eric",
+    //     email: "eric@gmail.com",
+    //     password: "12345",
+    //   },
+    // });
+
+    const users = await prisma.users.findMany();
+    res.send(users);
   }
 
   public async request(req: Request, res: Response) {

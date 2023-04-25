@@ -10,4 +10,10 @@ If you want to run this project on your own machine then run the next command:
 docker compose -f docker-compose-dev.yml up
 ```
 
+for get access into postgresql db CLI:
+
+```bash
+docker exec -it postgres sh -c 'psql -h postgres -U admin -d wizardlyapi'
+```
+
 > If you don't use docker so up the server one by one.
