@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 
 export class UserControllers {
-  static prisma: PrismaClient;
+  private static prisma: PrismaClient;
 
   constructor() {
     UserControllers.prisma = new PrismaClient();
@@ -10,7 +10,16 @@ export class UserControllers {
 
   public async getUsers(_req: Request, res: Response) {
     const users = await UserControllers.prisma.users.findMany();
-    res.send(users);
+    if (users.length < 1) {
+      return res
+        .status(404)
+        .json({ message: "No users added yet", statusCode: 404, data: [] });
+    }
+    res.status(200).json({
+      data: users,
+      statusCode: 200,
+      message: "All users from WizardlyAPI app",
+    });
   }
 
   public async index(_req: Request, res: Response) {
