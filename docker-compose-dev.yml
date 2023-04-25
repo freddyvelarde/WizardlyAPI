@@ -22,6 +22,7 @@ services:
       PORT: 8000
       NODE_ENV: production
       DATABASE_URL: postgresql://admin:admin@postgres:5432/wizardlyapi?schema=public
+      JWT_SECRET_KEY: q1w2e3r4t5
     networks:
       - wizardlyapi
     volumes:

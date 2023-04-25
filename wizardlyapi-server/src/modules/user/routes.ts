@@ -12,7 +12,8 @@ export class UserRoutes {
   private configureRoutes(app: Application): void {
     app.route("/users/all").get(this.userControllers.getUsers);
     app.route("/users").get(this.userControllers.index);
-    // this.router.get("/all", clientControllers.getUsers);
-    // this.router.get("/", clientControllers.index);
+
+    // authentication
+    app.route("/auth/signup").post(this.userControllers.signUp);
   }
 }

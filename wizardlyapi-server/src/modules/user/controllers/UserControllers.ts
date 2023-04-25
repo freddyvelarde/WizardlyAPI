@@ -1,4 +1,6 @@
 import { PrismaClient } from "@prisma/client";
+import { jwtSecretKey } from "../../../config/envVar";
+import { User } from "../../../interfaces/user";
 import { Request, Response } from "express";
 
 export class UserControllers {
@@ -27,6 +29,29 @@ export class UserControllers {
         message: "An error occurred while fetching users",
         statusCode: 500,
         error: error,
+      });
+    }
+  }
+
+  public async signUp(req: Request, res: Response) {
+    try {
+      const { username, email, password }: User = req.body;
+      const key = jwtSecretKey;
+
+      // verify if user does not exist.
+      // hash password
+      // save data
+      // generate access token
+
+      // UserControllers.prisma.users.create({data: {}});
+
+      res.json({ key, message: "fsdf" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "An error occurred while creating user, please try again.",
+        statuscode: 500,
+        data: [],
       });
     }
   }

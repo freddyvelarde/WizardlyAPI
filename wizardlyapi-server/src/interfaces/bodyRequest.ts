@@ -1,8 +1,10 @@
 interface BodyRequest {
+  name: string | "";
+  description: string | "";
+  method: string;
   url: string;
-  method?: string;
-  body?: {};
-  headers: {};
+  headers: string;
+  body: string;
 }
 
 export default BodyRequest;
