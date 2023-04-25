@@ -1,8 +1,16 @@
+// import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 
 export class UserControllers {
+  // private prisma: PrismaClient;
+
+  constructor() {
+    // this.prisma = prisma;
+  }
+
   public async getUsers(_req: Request, res: Response) {
-    res.send("all users");
+    // const users = await this.prisma.users.findMany();
+    res.send("users");
   }
 
   public async index(_req: Request, res: Response) {

@@ -9,7 +9,6 @@ class App {
   constructor() {
     this.app = express();
     this.configureMiddlewares();
-    // this.configureRoutes();
     this.initModules();
   }
 
@@ -19,12 +18,8 @@ class App {
     this.app.use(cors());
   }
 
-  // private configureRoutes(): void {
-  //   this.app.use("/users", clientRoutes);
-  // }
-
   private initModules() {
-    const UM = new UsersModule(this.app);
+    new UsersModule(this.app);
   }
 
   public runServer(): void {
