@@ -1,6 +1,6 @@
 import express, { Application } from "express";
 import morgan from "morgan";
-import clientRoutes from "./modules/request/routes/clientRoutes";
+import clientRoutes from "./modules/user/routes/userRoutes";
 import cors from "cors";
 
 class App {
@@ -19,7 +19,7 @@ class App {
   }
 
   private configureRoutes(): void {
-    this.app.use(clientRoutes);
+    this.app.use("/users", clientRoutes);
   }
 
   public runServer(): void {

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import clientControllers from "../controllers/clientControllers";
+import clientControllers from "../controllers/UserControllers";
 
 class ClientRoutes {
   public router: Router;
@@ -10,8 +10,8 @@ class ClientRoutes {
   }
 
   private configureRoutes(): void {
-    this.router.get("/hello", clientControllers.hello);
-    this.router.post("/", clientControllers.request);
+    this.router.get("/all", clientControllers.getUsers);
+    this.router.get("/", clientControllers.index);
   }
 }
 
