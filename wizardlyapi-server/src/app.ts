@@ -1,7 +1,7 @@
 import express, { Application } from "express";
 import morgan from "morgan";
 import cors from "cors";
-import { UsersModule } from "./modules/user/init";
+import { UsersModule } from "./modules/users/init";
 
 class App {
   public app: Application;

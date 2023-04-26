@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import { jwtSecretKey } from "../../../config/envVar";
 import { User } from "../../../interfaces/user";
 import { Request, Response } from "express";
 import PasswordHandler from "../../../helpers/passwordHandler";
