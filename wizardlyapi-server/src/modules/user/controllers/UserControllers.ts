@@ -16,6 +16,23 @@ export class UserControllers {
     UserControllers.jwtHandler = new JwtHandler();
   }
 
+  public async getUser(req: any, res: Response) {
+    try {
+      const id = req.userId;
+      const user = await UserControllers.prisma.users.findFirst({
+        where: { id },
+      });
+      res.json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "An error occurred while fetching user data",
+        statusCode: 500,
+        error: error,
+      });
+    }
+  }
+
   public async getUsers(_req: Request, res: Response) {
     try {
       const users = await UserControllers.prisma.users.findMany();
@@ -69,15 +86,21 @@ export class UserControllers {
         },
       });
       if (!newUser) {
-        return res.status(500).json({status: 500, message: 'error while creating user'})
+        return res
+          .status(500)
+          .json({ status: 500, message: "error while creating user" });
       }
       // generate access token
       const tokenGenerator = UserControllers.jwtHandler.generateJWT(newUser.id);
 
       if (tokenGenerator.failed) {
-        return res.status(500).json({message: tokenGenerator.message})
+        return res.status(500).json({ message: tokenGenerator.message });
       }
-      res.status(200).json({token: tokenGenerator.token, data: newUser, message: 'User was created successfully'})
+      res.status(200).json({
+        token: tokenGenerator.token,
+        data: newUser,
+        message: "User was created successfully",
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({
