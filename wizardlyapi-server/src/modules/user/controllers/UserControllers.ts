@@ -2,12 +2,18 @@ import { PrismaClient } from "@prisma/client";
 import { jwtSecretKey } from "../../../config/envVar";
 import { User } from "../../../interfaces/user";
 import { Request, Response } from "express";
+import PasswordHandler from "../../../helpers/passwordHandler";
+import JwtHandler from "../../../middlewares/jwt.handler";
 
 export class UserControllers {
   private static prisma: PrismaClient;
+  private static passwordHandler: PasswordHandler;
+  private static jwtHandler: JwtHandler;
 
   constructor() {
     UserControllers.prisma = new PrismaClient();
+    UserControllers.passwordHandler = new PasswordHandler();
+    UserControllers.jwtHandler = new JwtHandler();
   }
 
   public async getUsers(_req: Request, res: Response) {
@@ -36,16 +42,42 @@ export class UserControllers {
   public async signUp(req: Request, res: Response) {
     try {
       const { username, email, password }: User = req.body;
-      const key = jwtSecretKey;
 
       // verify if user does not exist.
+      const user = await UserControllers.prisma.users.findFirst({
+        where: { email },
+      });
+      if (user !== null) {
+        return res
+          .status(500)
+          .json({ status: 500, message: "Your email is already used" });
+      }
+
       // hash password
-      // save data
+      const hashedPassword =
+        await UserControllers.passwordHandler.encryptPassword(password);
+
+      if (hashedPassword.failed) {
+        return res.status(500).json({ message: hashedPassword.message });
+      }
+
+      const newUser = await UserControllers.prisma.users.create({
+        data: {
+          username,
+          password: hashedPassword.hashedPassword,
+          email,
+        },
+      });
+      if (!newUser) {
+        return res.status(500).json({status: 500, message: 'error while creating user'})
+      }
       // generate access token
+      const tokenGenerator = UserControllers.jwtHandler.generateJWT(newUser.id);
 
-      // UserControllers.prisma.users.create({data: {}});
-
-      res.json({ key, message: "fsdf" });
+      if (tokenGenerator.failed) {
+        return res.status(500).json({message: tokenGenerator.message})
+      }
+      res.status(200).json({token: tokenGenerator.token, data: newUser, message: 'User was created successfully'})
     } catch (error) {
       console.error(error);
       res.status(500).json({
