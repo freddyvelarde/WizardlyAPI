@@ -112,6 +112,43 @@ export default class UsersControllers {
     }
   }
 
+  public async removeUserProfile(req: any, res: Response) {
+    try {
+      const { password } = req.body;
+      const user = await UsersControllers.prisma.users.findFirst({
+        where: { id: req.userId },
+      });
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found", status: 404 });
+      }
+
+      const passwordMatch = await UsersControllers.passwordHandler.mathPassword(
+        password,
+        user.password
+      );
+
+      if (!passwordMatch.validPassword) {
+        return res
+          .status(500)
+          .json({ message: "Your password is not correct please try again." });
+      }
+
+      await UsersControllers.prisma.users.delete({ where: { id: req.userId } });
+
+      res.status(200).json({
+        message: "User removed",
+        status: 200,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        message: "An error occurred while user was removing",
+        status: 500,
+      });
+    }
+  }
+
   public async index(_req: Request, res: Response) {
     try {
       res.status(200).json({

@@ -20,6 +20,7 @@ export default class UsersRoutes {
       UsersRoutes.jwtHandler.verifyJwt,
       this.userControllers.getProfileDataByUser
     );
+    app.delete('/users/remove', UsersRoutes.jwtHandler.verifyJwt, this.userControllers.removeUserProfile);
 
     // authentication
     app.post("/auth/signup", this.userControllers.signUp);
