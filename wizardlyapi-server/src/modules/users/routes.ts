@@ -1,5 +1,5 @@
 import { Application } from "express";
-import UsersControllers from "./controllers/UsersControllers";
+import UsersControllers from "./controllers/usersControllers";
 import JwtHandler from "../../middlewares/jwt.handler";
 
 export default class UsersRoutes {
@@ -20,7 +20,11 @@ export default class UsersRoutes {
       UsersRoutes.jwtHandler.verifyJwt,
       this.userControllers.getProfileDataByUser
     );
-    app.delete('/users/remove', UsersRoutes.jwtHandler.verifyJwt, this.userControllers.removeUserProfile)
+    app.delete(
+      "/users/remove",
+      UsersRoutes.jwtHandler.verifyJwt,
+      this.userControllers.removeUserProfile
+    );
 
     // authentication
     app.post("/auth/signup", this.userControllers.signUp);

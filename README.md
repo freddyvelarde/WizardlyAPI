@@ -24,3 +24,5 @@ docker exec -it postgres sh -c 'psql -h postgres -U admin -d wizardlyapi'
 ```
 
 > If you don't use docker so up the server one by one.
+
+## Endpoints

@@ -1,18 +1,18 @@
 import { PrismaClient } from "@prisma/client";
-import { User } from "../../../interfaces/user";
-import { Request, Response } from "express";
+import type { User } from "../../../interfaces/user";
+import type { Request, Response } from "express";
 import PasswordHandler from "../../../helpers/passwordHandler";
 import JwtHandler from "../../../middlewares/jwt.handler";
 
 export default class UsersControllers {
-  private static prisma: PrismaClient;
-  private static passwordHandler: PasswordHandler;
-  private static jwtHandler: JwtHandler;
+  private static prisma: PrismaClient = new PrismaClient();
+  private static passwordHandler: PasswordHandler = new PasswordHandler();
+  private static jwtHandler: JwtHandler = new JwtHandler();
 
   constructor() {
-    UsersControllers.prisma = new PrismaClient();
-    UsersControllers.passwordHandler = new PasswordHandler();
-    UsersControllers.jwtHandler = new JwtHandler();
+    // UsersControllers.prisma = new PrismaClient();
+    // UsersControllers.passwordHandler = new PasswordHandler();
+    // UsersControllers.jwtHandler = new JwtHandler();
   }
 
   public async getProfileDataByUser(req: any, res: Response) {
@@ -120,9 +120,11 @@ export default class UsersControllers {
         where: { email },
       });
       if (!user) {
-        return res
-          .status(404)
-          .json({ message: "Your email is not valid", status: 404 });
+        return res.status(404).json({
+          message: "Your email is not valid",
+          status: 404,
+          auth: false,
+        });
       }
 
       const matchPassword = await UsersControllers.passwordHandler.mathPassword(
@@ -133,13 +135,15 @@ export default class UsersControllers {
       if (!matchPassword.validPassword) {
         return res
           .status(500)
-          .json({ message: matchPassword.message, status: 500 });
+          .json({ message: matchPassword.message, status: 500, auth: false });
       }
       const token = UsersControllers.jwtHandler.generateJWT(user.id).token;
-      res.status(200).json({token , auth: true, status: 200});
+      res.status(200).json({ token, auth: true, status: 200 });
     } catch (error) {
       console.log(error);
-      res.status(500).json({ message: "Error while Log In user", status: 500 });
+      res
+        .status(500)
+        .json({ message: "Error while Log In user", status: 500, auth: false });
     }
   }
 
