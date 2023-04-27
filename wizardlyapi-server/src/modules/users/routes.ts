@@ -1,24 +1,24 @@
 import { Application } from "express";
-import { UserControllers } from "./controllers/UserControllers";
+import UsersControllers from "./controllers/UsersControllers";
 import JwtHandler from "../../middlewares/jwt.handler";
 
-export class UserRoutes {
-  private userControllers: UserControllers;
+export default class UsersRoutes {
+  private userControllers: UsersControllers;
   private static jwtHandler: JwtHandler;
 
-  constructor(app: Application, userControllers: UserControllers) {
+  constructor(app: Application, userControllers: UsersControllers) {
     this.userControllers = userControllers;
-    UserRoutes.jwtHandler = new JwtHandler();
+    UsersRoutes.jwtHandler = new JwtHandler();
     this.configureRoutes(app);
   }
 
   private configureRoutes(app: Application): void {
-    app.get("/users/all", this.userControllers.getUser);
-    app.get("/users", this.userControllers.index);
+    app.get("/users", this.userControllers.getAllUsers);
+    app.get("/", this.userControllers.index);
     app.get(
-      "/user",
-      UserRoutes.jwtHandler.verifyJwt,
-      this.userControllers.getUser
+      "/users/profile",
+      UsersRoutes.jwtHandler.verifyJwt,
+      this.userControllers.getProfileDataByUser
     );
 
     // authentication

@@ -1,9 +1,9 @@
 import { Application } from "express";
-import { UserControllers } from "./controllers/UserControllers";
-import { UserRoutes } from "./routes";
+import UsersControllers from "./controllers/UsersControllers";
+import UsersRoutes from "./routes";
 
-export class UsersModule {
+export default class UsersModule {
   constructor(app: Application) {
-    new UserRoutes(app, new UserControllers());
+    new UsersRoutes(app, new UsersControllers());
   }
 }

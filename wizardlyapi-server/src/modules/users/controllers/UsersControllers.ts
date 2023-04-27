@@ -4,21 +4,21 @@ import { Request, Response } from "express";
 import PasswordHandler from "../../../helpers/passwordHandler";
 import JwtHandler from "../../../middlewares/jwt.handler";
 
-export class UserControllers {
+export default class UsersControllers {
   private static prisma: PrismaClient;
   private static passwordHandler: PasswordHandler;
   private static jwtHandler: JwtHandler;
 
   constructor() {
-    UserControllers.prisma = new PrismaClient();
-    UserControllers.passwordHandler = new PasswordHandler();
-    UserControllers.jwtHandler = new JwtHandler();
+    UsersControllers.prisma = new PrismaClient();
+    UsersControllers.passwordHandler = new PasswordHandler();
+    UsersControllers.jwtHandler = new JwtHandler();
   }
 
-  public async getUser(req: any, res: Response) {
+  public async getProfileDataByUser(req: any, res: Response) {
     try {
       const id = req.userId;
-      const user = await UserControllers.prisma.users.findFirst({
+      const user = await UsersControllers.prisma.users.findFirst({
         where: { id },
       });
       res.json(user);
@@ -32,9 +32,9 @@ export class UserControllers {
     }
   }
 
-  public async getUsers(_req: Request, res: Response) {
+  public async getAllUsers(_req: Request, res: Response) {
     try {
-      const users = await UserControllers.prisma.users.findMany();
+      const users = await UsersControllers.prisma.users.findMany();
       if (users.length < 1) {
         return res
           .status(404)
@@ -60,7 +60,7 @@ export class UserControllers {
       const { username, email, password }: User = req.body;
 
       // verify if user does not exist.
-      const user = await UserControllers.prisma.users.findFirst({
+      const user = await UsersControllers.prisma.users.findFirst({
         where: { email },
       });
       if (user !== null) {
@@ -71,13 +71,13 @@ export class UserControllers {
 
       // hash password
       const hashedPassword =
-        await UserControllers.passwordHandler.encryptPassword(password);
+        await UsersControllers.passwordHandler.encryptPassword(password);
 
       if (hashedPassword.failed) {
         return res.status(500).json({ message: hashedPassword.message });
       }
 
-      const newUser = await UserControllers.prisma.users.create({
+      const newUser = await UsersControllers.prisma.users.create({
         data: {
           username,
           password: hashedPassword.hashedPassword,
@@ -90,7 +90,9 @@ export class UserControllers {
           .json({ status: 500, message: "error while creating user" });
       }
       // generate access token
-      const tokenGenerator = UserControllers.jwtHandler.generateJWT(newUser.id);
+      const tokenGenerator = UsersControllers.jwtHandler.generateJWT(
+        newUser.id
+      );
 
       if (tokenGenerator.failed) {
         return res.status(500).json({ message: tokenGenerator.message });

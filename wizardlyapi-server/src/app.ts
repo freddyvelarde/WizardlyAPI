@@ -1,7 +1,7 @@
 import express, { Application } from "express";
 import morgan from "morgan";
 import cors from "cors";
-import { UsersModule } from "./modules/users/init";
+import UsersModules from "./modules/users/init";
 
 class App {
   public app: Application;
@@ -19,7 +19,7 @@ class App {
   }
 
   private initModules() {
-    new UsersModule(this.app);
+    new UsersModules(this.app);
   }
 
   public runServer(): void {
