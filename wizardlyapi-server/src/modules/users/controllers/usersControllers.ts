@@ -4,16 +4,16 @@ import type { Request, Response } from "express";
 import PasswordHandler from "../../../helpers/passwordHandler";
 import JwtHandler from "../../../middlewares/jwt.handler";
 
+interface SignUpRequestBody {
+  username: string;
+  email: string;
+  password: string;
+}
+
 export default class UsersControllers {
   private static prisma: PrismaClient = new PrismaClient();
   private static passwordHandler: PasswordHandler = new PasswordHandler();
   private static jwtHandler: JwtHandler = new JwtHandler();
-
-  constructor() {
-    // UsersControllers.prisma = new PrismaClient();
-    // UsersControllers.passwordHandler = new PasswordHandler();
-    // UsersControllers.jwtHandler = new JwtHandler();
-  }
 
   public async getProfileDataByUser(req: any, res: Response) {
     try {
@@ -57,19 +57,17 @@ export default class UsersControllers {
 
   public async signUp(req: Request, res: Response) {
     try {
-      const { username, email, password }: User = req.body;
+      const { username, email, password }: SignUpRequestBody = req.body;
 
-      // verify if user does not exist.
       const user = await UsersControllers.prisma.users.findFirst({
         where: { email },
       });
       if (user !== null) {
         return res
-          .status(500)
-          .json({ status: 500, message: "Your email is already used" });
+          .status(409)
+          .json({ status: 409, message: "Your email is already used" });
       }
 
-      // hash password
       const hashedPassword =
         await UsersControllers.passwordHandler.encryptPassword(password);
 
@@ -89,7 +87,7 @@ export default class UsersControllers {
           .status(500)
           .json({ status: 500, message: "error while creating user" });
       }
-      // generate access token
+
       const tokenGenerator = UsersControllers.jwtHandler.generateJWT(
         newUser.id
       );
@@ -107,7 +105,6 @@ export default class UsersControllers {
       res.status(500).json({
         message: "An error occurred while creating user, please try again.",
         statuscode: 500,
-        data: [],
       });
     }
   }

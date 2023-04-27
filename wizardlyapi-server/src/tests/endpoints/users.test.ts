@@ -27,7 +27,7 @@ describe("UserControllers", () => {
       const response = await request(app)
         .post("/auth/signup")
         .send(user)
-        .expect(500);
+        .expect(409);
 
       expect(response.body.message).toBe("Your email is already used");
     });
@@ -42,6 +42,17 @@ describe("UserControllers", () => {
 
       expect(response.body.auth).toBe(true);
       accessToken = response.body.token;
+    });
+
+    it("should failed for wrong password", async () => {
+      const response = await request(app)
+        .post("/auth/login")
+        .send({ email: user.email, password: "wrongpasswor" })
+        .expect(500);
+
+      expect(response.body.message).toBe(
+        "You password is not valid, please try again."
+      );
     });
   });
 
