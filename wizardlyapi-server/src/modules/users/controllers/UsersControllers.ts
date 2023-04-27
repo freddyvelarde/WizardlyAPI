@@ -112,6 +112,37 @@ export default class UsersControllers {
     }
   }
 
+  public async logIn(req: Request, res: Response) {
+    try {
+      const { email, password } = req.body;
+
+      const user = await UsersControllers.prisma.users.findFirst({
+        where: { email },
+      });
+      if (!user) {
+        return res
+          .status(404)
+          .json({ message: "Your email is not valid", status: 404 });
+      }
+
+      const matchPassword = await UsersControllers.passwordHandler.mathPassword(
+        password,
+        user.password
+      );
+
+      if (!matchPassword.validPassword) {
+        return res
+          .status(500)
+          .json({ message: matchPassword.message, status: 500 });
+      }
+      const token = UsersControllers.jwtHandler.generateJWT(user.id).token;
+      res.status(200).json({token , auth: true, status: 200});
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Error while Log In user", status: 500 });
+    }
+  }
+
   public async removeUserProfile(req: any, res: Response) {
     try {
       const { password } = req.body;
@@ -123,15 +154,15 @@ export default class UsersControllers {
         return res.status(404).json({ message: "User not found", status: 404 });
       }
 
-      const passwordMatch = await UsersControllers.passwordHandler.mathPassword(
+      const matchPassword = await UsersControllers.passwordHandler.mathPassword(
         password,
         user.password
       );
 
-      if (!passwordMatch.validPassword) {
+      if (!matchPassword.validPassword) {
         return res
           .status(500)
-          .json({ message: "Your password is not correct please try again." });
+          .json({ message: matchPassword.message, status: 500 });
       }
 
       await UsersControllers.prisma.users.delete({ where: { id: req.userId } });
