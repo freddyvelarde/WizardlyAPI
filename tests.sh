@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export PGPASSWORD=admin
-
 # Define ANSI color codes
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -12,8 +10,6 @@ echo -e "Running '${GREEN}WizardlyAPI${NC}' tests:"
 sleep 1
 
 docker exec -it wizardlyapi-server sh -c 'npm run test'
-# docker exec -it postgres sh -c 'psql -h postgres -U admin -d wizardlyapi'
-# unset PGPASSWORD
 
 # Check the exit code of the previous command
 if [ $? -eq 0 ]; then
