@@ -1,6 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import type { User } from "../../../interfaces/user";
-
 import type { Request, Response } from "express";
 import PasswordHandler from "../../../helpers/passwordHandler";
 import JwtHandler from "../../../middlewares/jwt.handler";
