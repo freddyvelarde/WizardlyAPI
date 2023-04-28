@@ -1,13 +1,9 @@
 import JwtHandler from "../../middlewares/jwt.handler";
 
-describe("JwtHandler", () => {
-  let jwtHandler: JwtHandler;
+describe("Json Web Token - unit tests", () => {
+  let jwtHandler: JwtHandler = new JwtHandler();
 
-  beforeEach(() => {
-    jwtHandler = new JwtHandler();
-  });
-
-  describe("generateJWT", () => {
+  describe("JWT generator", () => {
     it("should generate a JWT token with the user ID and return it", () => {
       const result = jwtHandler.generateJWT(123);
       expect(result.failed).toBe(false);

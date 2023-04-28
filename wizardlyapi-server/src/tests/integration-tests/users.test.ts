@@ -1,7 +1,7 @@
 import request from "supertest";
 import App from "../../app";
 
-describe("UserControllers", () => {
+describe("User controllers: Authentication and user features", () => {
   const app = new App().app;
   let accessToken: string;
   const user = {
@@ -53,10 +53,54 @@ describe("UserControllers", () => {
       expect(response.body.message).toBe(
         "You password is not valid, please try again."
       );
+      expect(response.body.auth).toBe(false);
+    });
+
+    it("should failed for invalid email", async () => {
+      const response = await request(app)
+        .post("/auth/login")
+        .send({ email: "wrongemail@gmail.com", password: "wrongpasswor" })
+        .expect(404);
+
+      expect(response.body.message).toBe("Your email is not valid");
+      expect(response.body.auth).toBe(false);
     });
   });
 
-  describe("DELETE /usera/remove", () => {
+  describe("DELETE /users/remove", () => {
+    it("should failed for not access-token", async () => {
+      const response = await request(app)
+        .delete("/users/remove")
+        .send({ password: "wrongpassword" })
+        .expect(500);
+
+      expect(response.body.message).toBe("you don't have any token");
+      expect(response.body.access).toBe(false);
+    });
+
+    it("should failed for not token valid", async () => {
+      const response = await request(app)
+        .delete("/users/remove")
+        .set("access-token", "notvalidtoken")
+        .send({ password: "wrongpassword" })
+        .expect(200);
+
+      expect(response.body.message).toBe("jwt malformed");
+      expect(response.body.name).toBe("JsonWebTokenError");
+    });
+
+    it("should failed for wrong password passed", async () => {
+      const response = await request(app)
+        .delete("/users/remove")
+        .set("access-token", accessToken)
+        .send({ password: "wrongpassword" })
+        .expect(500);
+
+      expect(response.body.message).toBe(
+        "You password is not valid, please try again."
+      );
+    });
+
     it("Removing user", async () => {
       const response = await request(app)
         .delete("/users/remove")
