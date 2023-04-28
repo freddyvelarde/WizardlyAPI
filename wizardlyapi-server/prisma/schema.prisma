@@ -12,7 +12,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
+model User {
   id        Int      @id @default(autoincrement())
   username  String
   email     String
@@ -22,14 +22,14 @@ model Users {
   environments Environment[]
 }
 
-model Collection {
+model Workspace {
   id          Int        @id @default(autoincrement())
   name        String
   description String?
   request     Request    @relation(fields: [request_id], references: [id])
   request_id  Int
-  created_at  DateTime
-  updated_at  DateTime
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now())
   environments Environment[]
 }
 
@@ -41,9 +41,9 @@ model Request {
   url          String
   headers      String?
   body         String?
-  created_at   DateTime
-  updated_at   DateTime
-  collections  Collection[]
+  created_at   DateTime @default(now())
+  updated_at   DateTime @default(now())
+  workspaces   Workspace[]
   histories    History[]
 }
 
@@ -51,12 +51,12 @@ model Environment {
   id           Int        @id @default(autoincrement())
   name         String
   variable     String
-  collection   Collection @relation(fields: [collection_id], references: [id])
-  collection_id Int
-  owner        Users     @relation(fields: [owner_id], references: [id])
+  workspace    Workspace @relation(fields: [workspace_id], references: [id])
+  workspace_id Int
+  owner        User     @relation(fields: [owner_id], references: [id])
   owner_id     Int
-  created_at   DateTime
-  updated_at   DateTime
+  created_at   DateTime @default(now())
+  updated_at   DateTime @default(now())
   histories    History[]
 }
 
@@ -65,9 +65,9 @@ model History {
   request         Request   @relation(fields: [request_id], references: [id])
   request_id      Int
   response_code   Int
-  response_headers Json?
-  response_body   Json?
-  created_at      DateTime
+  response_headers String
+  response_body   String
+  created_at      DateTime @default(now())
   environments    Environment[]
 
   @@index([request_id])

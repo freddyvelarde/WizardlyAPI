@@ -17,7 +17,7 @@ export default class UsersControllers {
   public async getProfileDataByUser(req: any, res: Response) {
     try {
       const id = req.userId;
-      const user = await UsersControllers.prisma.users.findFirst({
+      const user = await UsersControllers.prisma.user.findFirst({
         where: { id },
       });
       res.json(user);
@@ -33,21 +33,21 @@ export default class UsersControllers {
 
   public async getAllUsers(_req: Request, res: Response) {
     try {
-      const users = await UsersControllers.prisma.users.findMany();
-      if (users.length < 1) {
+      const user = await UsersControllers.prisma.user.findMany();
+      if (user.length < 1) {
         return res
           .status(404)
-          .json({ message: "No users added yet", statusCode: 404, data: [] });
+          .json({ message: "No user added yet", statusCode: 404, data: [] });
       }
       res.status(200).json({
-        data: users,
+        data: user,
         statusCode: 200,
-        message: "All users from WizardlyAPI app",
+        message: "All user from WizardlyAPI app",
       });
     } catch (error) {
       console.error(error);
       res.status(500).json({
-        message: "An error occurred while fetching users",
+        message: "An error occurred while fetching user",
         statusCode: 500,
         error: error,
       });
@@ -58,7 +58,7 @@ export default class UsersControllers {
     try {
       const { username, email, password }: SignUpRequestBody = req.body;
 
-      const user = await UsersControllers.prisma.users.findFirst({
+      const user = await UsersControllers.prisma.user.findFirst({
         where: { email },
       });
       if (user !== null) {
@@ -74,7 +74,7 @@ export default class UsersControllers {
         return res.status(500).json({ message: hashedPassword.message });
       }
 
-      const newUser = await UsersControllers.prisma.users.create({
+      const newUser = await UsersControllers.prisma.user.create({
         data: {
           username,
           password: hashedPassword.hashedPassword,
@@ -112,7 +112,7 @@ export default class UsersControllers {
     try {
       const { email, password } = req.body;
 
-      const user = await UsersControllers.prisma.users.findFirst({
+      const user = await UsersControllers.prisma.user.findFirst({
         where: { email },
       });
       if (!user) {
@@ -123,10 +123,11 @@ export default class UsersControllers {
         });
       }
 
-      const matchPassword = await UsersControllers.passwordHandler.mathPassword(
-        password,
-        user.password
-      );
+      const matchPassword =
+        await UsersControllers.passwordHandler.mathPassword(
+          password,
+          user.password
+        );
 
       if (!matchPassword.validPassword) {
         return res
@@ -146,7 +147,7 @@ export default class UsersControllers {
   public async removeUserProfile(req: any, res: Response) {
     try {
       const { password } = req.body;
-      const user = await UsersControllers.prisma.users.findFirst({
+      const user = await UsersControllers.prisma.user.findFirst({
         where: { id: req.userId },
       });
 
@@ -154,10 +155,11 @@ export default class UsersControllers {
         return res.status(404).json({ message: "User not found", status: 404 });
       }
 
-      const matchPassword = await UsersControllers.passwordHandler.mathPassword(
-        password,
-        user.password
-      );
+      const matchPassword =
+        await UsersControllers.passwordHandler.mathPassword(
+          password,
+          user.password
+        );
 
       if (!matchPassword.validPassword) {
         return res
@@ -165,7 +167,7 @@ export default class UsersControllers {
           .json({ message: matchPassword.message, status: 500 });
       }
 
-      await UsersControllers.prisma.users.delete({ where: { id: req.userId } });
+      await UsersControllers.prisma.user.delete({ where: { id: req.userId } });
 
       res.status(200).json({
         message: "User removed",

@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import morgan from "morgan";
 import cors from "cors";
 import UsersModules from "./modules/users/init";
+import RequestsModule from "./modules/requests/init";
 
 class App {
   public app: Application;
@@ -20,6 +21,7 @@ class App {
 
   private initModules() {
     new UsersModules(this.app);
+    new RequestsModule(this.app);
   }
 
   public runServer(): void {
