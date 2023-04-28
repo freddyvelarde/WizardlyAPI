@@ -84,7 +84,7 @@ async function registerUser(url, body, headers) {
 
 ### Users
 
-- GET: `/users/profile` - This endpoint remove the users information from the system
+- GET: `/users/profile` - This endpoint returns the profile information of the authenticated user.
 
 ```javascript
 import axios from "axios";
@@ -104,7 +104,7 @@ async function getUserData(url, headers) {
 }
 ```
 
-- DELETE: `/users/remove` - This endpoint returns the profile information of the authenticated user.
+- DELETE: `/users/remove` - This endpoint remove the users information from the system
 
 ```javascript
 import axios from "axios";
