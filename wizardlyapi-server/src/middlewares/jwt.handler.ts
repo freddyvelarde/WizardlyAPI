@@ -18,10 +18,13 @@ class JwtHandler {
     try {
       const token: any = req.headers["access-token"];
       if (!token) {
-        res.json({ auth: false, message: "you don't have any token" });
+        res
+          .status(500)
+          .json({ access: false, message: "you don't have any token" });
         return;
       }
       const tokenValid: any = jwt.verify(token, jwtSecretKey || "tokentest");
+
       req.userId = tokenValid.userId;
       next();
     } catch (err) {
