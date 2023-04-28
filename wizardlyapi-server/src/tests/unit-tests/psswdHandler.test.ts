@@ -1,8 +1,7 @@
-import bcrypt from "bcryptjs";
 import PasswordHandler, {
   EncryptResponse,
   VerifyResponse,
-} from "../helpers/passwordHandler";
+} from "../../helpers/passwordHandler";
 
 describe("PasswordHandler", () => {
   let passwordHandler: PasswordHandler;

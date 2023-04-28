@@ -1,4 +1,4 @@
-import JwtHandler from "../middlewares/jwt.handler";
+import JwtHandler from "../../middlewares/jwt.handler";
 
 describe("JwtHandler", () => {
   let jwtHandler: JwtHandler;
