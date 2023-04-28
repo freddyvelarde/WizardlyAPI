@@ -22,7 +22,5 @@ docker exec -it postgres sh -c 'psql -h postgres -U admin -d wizardlyapi'
 # to run all tests just run this file
 ./tests.sh
 ```
-
 > If you don't use docker so up the server one by one.
 
-## Endpoints
