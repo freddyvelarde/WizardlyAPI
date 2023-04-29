@@ -1,6 +1,6 @@
 import { Application } from "express";
 import WorkshopControllers from "./controllers/workshopControllers";
-import JwtHandler from "../../middlewares/jwt.handler";
+import JwtHandler from "../../middlewares/jwtHandler";
 
 export default class Routes {
   private workshopControllers: WorkshopControllers;

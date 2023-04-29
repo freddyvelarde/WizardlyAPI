@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import type { Request, Response } from "express";
 import PasswordHandler from "../../../helpers/passwordHandler";
-import JwtHandler from "../../../middlewares/jwt.handler";
+import JwtHandler from "../../../middlewares/jwtHandler";
 
 interface SignUpRequestBody {
   username: string;
@@ -123,11 +123,10 @@ export default class UsersControllers {
         });
       }
 
-      const matchPassword =
-        await UsersControllers.passwordHandler.mathPassword(
-          password,
-          user.password
-        );
+      const matchPassword = await UsersControllers.passwordHandler.mathPassword(
+        password,
+        user.password
+      );
 
       if (!matchPassword.validPassword) {
         return res
@@ -155,11 +154,10 @@ export default class UsersControllers {
         return res.status(404).json({ message: "User not found", status: 404 });
       }
 
-      const matchPassword =
-        await UsersControllers.passwordHandler.mathPassword(
-          password,
-          user.password
-        );
+      const matchPassword = await UsersControllers.passwordHandler.mathPassword(
+        password,
+        user.password
+      );
 
       if (!matchPassword.validPassword) {
         return res

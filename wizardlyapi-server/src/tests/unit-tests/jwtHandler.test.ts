@@ -1,4 +1,4 @@
-import JwtHandler from "../../middlewares/jwt.handler";
+import JwtHandler from "../../middlewares/jwtHandler";
 
 describe("Json Web Token - unit tests", () => {
   let jwtHandler: JwtHandler = new JwtHandler();

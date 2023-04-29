@@ -1,6 +1,6 @@
 import { Application } from "express";
 import UsersControllers from "./controllers/usersControllers";
-import JwtHandler from "../../middlewares/jwt.handler";
+import JwtHandler from "../../middlewares/jwtHandler";
 
 export default class UsersRoutes {
   private userControllers: UsersControllers;
