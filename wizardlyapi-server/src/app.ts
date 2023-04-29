@@ -3,6 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import UsersModules from "./modules/users/init";
 import RequestsModule from "./modules/requests/init";
+import WorkshopModules from "./modules/workshop/init";
 
 class App {
   public app: Application;
@@ -22,6 +23,7 @@ class App {
   private initModules() {
     new UsersModules(this.app);
     new RequestsModule(this.app);
+    new WorkshopModules(this.app);
   }
 
   public runServer(): void {
