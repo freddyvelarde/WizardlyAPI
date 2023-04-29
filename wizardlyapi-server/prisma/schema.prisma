@@ -10,9 +10,9 @@ datasource db {
 
 model User {
   id           Int            @id @default(autoincrement())
-  username     String?
-  email        String?
-  password     String?
+  username     String
+  email        String         @unique
+  password     String
   created_at   DateTime       @default(now())
   updated_at   DateTime       @updatedAt
   workshops    Workshop[]
@@ -21,10 +21,10 @@ model User {
 
 model Workshop {
   id            Int            @id @default(autoincrement())
-  name          String?
+  name          String
   description   String?
-  request_id    Int?
-  public        Boolean?
+  request_id    Int
+  public        Boolean        @default(false)
   created_at    DateTime       @default(now())
   updated_at    DateTime       @updatedAt
   author        User           @relation(fields: [author_id], references: [id])
@@ -45,12 +45,12 @@ model Collaborator {
 
 model Request {
   id          Int       @id @default(autoincrement())
-  name        String?
+  name        String
   description String?
-  method      String?
-  url         String?
-  headers     String?
-  body        String?
+  method      String
+  url         String
+  headers     String
+  body        String
   created_at  DateTime  @default(now())
   updated_at  DateTime  @updatedAt
   workshop    Workshop? @relation(fields: [workshop_id], references: [id])
@@ -60,9 +60,9 @@ model Request {
 
 model Response {
   id               Int      @id @default(autoincrement())
-  response_code    Int?
-  response_headers String?
-  response_body    String?
+  response_code    Int
+  response_headers String
+  response_body    String
   created_at       DateTime @default(now())
   request          Request  @relation(fields: [request_id], references: [id])
   request_id       Int      @unique
