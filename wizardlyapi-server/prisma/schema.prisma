@@ -1,11 +1,7 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native"]
 }
-
 
 datasource db {
   provider = "postgresql"
@@ -13,62 +9,61 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String
-  email     String
-  password  String
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
-  environments Environment[]
+  id           Int            @id @default(autoincrement())
+  username     String?
+  email        String?
+  password     String?
+  created_at   DateTime       @default(now())
+  updated_at   DateTime       @updatedAt
+  workshops    Workshop[]
+  Collaborator Collaborator[]
 }
 
-model Workspace {
-  id          Int        @id @default(autoincrement())
-  name        String
-  description String?
-  request     Request    @relation(fields: [request_id], references: [id])
-  request_id  Int
+model Workshop {
+  id            Int            @id @default(autoincrement())
+  name          String?
+  description   String?
+  request_id    Int?
+  public        Boolean?
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+  author        User           @relation(fields: [author_id], references: [id])
+  author_id     Int
+  collaborators Collaborator[]
+  Request       Request[]
+}
+
+model Collaborator {
+  id          Int      @id @default(autoincrement())
   created_at  DateTime @default(now())
-  updated_at  DateTime @default(now())
-  environments Environment[]
+  updated_at  DateTime @updatedAt
+  workshop    Workshop @relation(fields: [workshop_id], references: [id])
+  workshop_id Int
+  user        User     @relation(fields: [user_id], references: [id])
+  user_id     Int
 }
 
 model Request {
-  id           Int         @id @default(autoincrement())
-  name         String
-  description  String?
-  method       String
-  url          String
-  headers      String?
-  body         String?
-  created_at   DateTime @default(now())
-  updated_at   DateTime @default(now())
-  workspaces   Workspace[]
-  histories    History[]
+  id          Int       @id @default(autoincrement())
+  name        String?
+  description String?
+  method      String?
+  url         String?
+  headers     String?
+  body        String?
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  workshop    Workshop? @relation(fields: [workshop_id], references: [id])
+  workshop_id Int?
+  response    Response?
 }
 
-model Environment {
-  id           Int        @id @default(autoincrement())
-  name         String
-  variable     String
-  workspace    Workspace @relation(fields: [workspace_id], references: [id])
-  workspace_id Int
-  owner        User     @relation(fields: [owner_id], references: [id])
-  owner_id     Int
-  created_at   DateTime @default(now())
-  updated_at   DateTime @default(now())
-  histories    History[]
-}
-
-model History {
-  id              Int       @id @default(autoincrement())
-  request         Request   @relation(fields: [request_id], references: [id])
-  request_id      Int
-  response_code   Int
-  response_headers String
-  response_body   String
-  created_at      DateTime @default(now())
-  environments    Environment[]
-
-  @@index([request_id])
+model Response {
+  id               Int      @id @default(autoincrement())
+  response_code    Int?
+  response_headers String?
+  response_body    String?
+  created_at       DateTime @default(now())
+  request          Request  @relation(fields: [request_id], references: [id])
+  request_id       Int      @unique
 }
