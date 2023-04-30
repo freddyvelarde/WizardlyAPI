@@ -17,5 +17,11 @@ export default class Routes {
       Routes.jwtHandler.verifyJwt,
       this.workshopControllers.getWorkshopByuser
     );
+    app.post(
+      "/workshop/create",
+      Routes.jwtHandler.verifyJwt,
+      this.workshopControllers.createNewWorkshopSpace
+    );
+    app.delete("/workshop/remove", this.workshopControllers.removeWorkshop);
   }
 }
