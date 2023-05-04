@@ -28,6 +28,20 @@ services:
     volumes:
       - ./wizardlyapi-server:/app
 
+  web-client:
+    container_name: nextjs
+    # networks:
+    #   - scrapify-network
+    build:
+      context: ./wizardlyapi-web
+      dockerfile: Dockerfile.dev
+    ports:
+      - "4545:3000"
+    environment:
+      PORT: 3000
+    volumes:
+      - ./wizardlyapi-web:/app
+
   # database
   postgres:
     networks:
