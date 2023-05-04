@@ -70,7 +70,7 @@ const body = {
 const headers = {
   "content-type": "Application/json",
 };
-const url = "https://localhost/api/auth/login";
+const url = "http://localhost/api/auth/login";
 
 async function registerUser(url, body, headers) {
   try {
@@ -92,7 +92,7 @@ import axios from "axios";
 const headers = {
   "access-token": "yourtoken", // this token is given when user is authenticated
 };
-const url = "https://localhost/api/users/profile";
+const url = "http://localhost/api/users/profile";
 
 async function getUserData(url, headers) {
   try {
@@ -112,11 +112,80 @@ import axios from "axios";
 const headers = {
   "access-token": "yourtoken", // this token is given when user is authenticated
 };
-const url = "https://localhost/api/users/remove";
+const url = "http://localhost/api/users/remove";
 
 async function getUserData(url, headers) {
   try {
     const response = await axios.delete(url, body, { headers });
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+```
+
+### Workshops
+
+- GET: `/workshop` - This endpoint get all workshops by user
+
+```javascript
+import axios from "axios";
+
+const headers = {
+  "access-token": "yourtoken", // this token is given when user is authenticated
+};
+const url = "http://localhost/api/workshop";
+
+async function getWorkshopsByUser(url, headers) {
+  try {
+    const response = await axios.get(url, { headers });
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+```
+
+- POST: `/workshop/create` - This endpoint create a new workshop
+
+```javascript
+import axios from "axios";
+
+const headers = {
+  "access-token": "yourtoken", // this token is given when user is authenticated
+};
+const url = "http://localhost/api/workshop";
+
+const body = {
+  name: "workshop name",
+  description: "workshop description",
+  is_public: false | true,
+};
+
+async function createWorkshop(url, headers) {
+  try {
+    const response = await axios.post(url, body, { headers });
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+```
+
+- DELETE: `/workshop/remove` - This endpoint remove the workshop information from the system
+
+```javascript
+import axios from "axios";
+
+const headers = {
+  "access-token": "yourtoken", // this token is given when user is authenticated
+};
+
+const url = "http://localhost/api/workshop/remove";
+
+async function removeWorkshop(url, headers) {
+  try {
+    const response = await axios.delete(url, { headers });
     console.log(response.data);
   } catch (error) {
     console.error(error);
