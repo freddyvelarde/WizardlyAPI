@@ -21,6 +21,11 @@ export default class RequestControllers {
     }
   }
 
+  // public async getRequestFromUser(req: Request, res: Response) {
+  //   await RequestControllers.prisma.request.findMany({where: {workshop_id: 1}, include: {response: true}})
+  // }
+
+
   // public async createRequest(req: Request, res: Response) => {
   //
   // }

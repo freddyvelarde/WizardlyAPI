@@ -43,9 +43,11 @@ export default class WorkshopControllers {
     }
   }
 
-  public async getWorkshopByuser(_req: Request, res: Response) {
+  public async getWorkshopByuser(req: Request & { id: number }, res: Response) {
     try {
-      const workshops = await WorkshopControllers.prisma.workshop.findMany();
+      const workshops = await WorkshopControllers.prisma.workshop.findMany({
+        where: { author_id: req.id },
+      });
       if (workshops.length < 1) {
         return res
           .status(404)
