@@ -117,7 +117,7 @@ export default class UsersControllers {
       });
       if (!user) {
         return res.status(404).json({
-          message: "Your email is not valid",
+          message: "Your email does not exist",
           status: 404,
           auth: false,
         });

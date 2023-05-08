@@ -43,22 +43,22 @@ export default class WorkshopControllers {
     }
   }
 
-  public async getWorkshopByuser(req: Request & { id: number }, res: Response) {
-    try {
-      const workshops = await WorkshopControllers.prisma.workshop.findMany({
-        where: { author_id: req.id },
-      });
-      if (workshops.length < 1) {
-        return res
-          .status(404)
-          .json({ message: "No workshop added yet", status: 404 });
-      }
-      res.status(200).json({ status: 200, data: workshops });
-    } catch (error) {
-      console.log(error);
-      return res
-        .status(500)
-        .json({ message: "An error occurred while getting workshops" });
-    }
-  }
+  // public async getWorkshopByuser(req: Request & { id: number }, res: Response) {
+  //   try {
+  //     const workshops = await WorkshopControllers.prisma.workshop.findMany({
+  //       where: { author_id: req.id },
+  //     });
+  //     if (workshops.length < 1) {
+  //       return res
+  //         .status(404)
+  //         .json({ message: "No workshop added yet", status: 404 });
+  //     }
+  //     res.status(200).json({ status: 200, data: workshops });
+  //   } catch (error) {
+  //     console.log(error);
+  //     return res
+  //       .status(500)
+  //       .json({ message: "An error occurred while getting workshops" });
+  //   }
+  // }
 }

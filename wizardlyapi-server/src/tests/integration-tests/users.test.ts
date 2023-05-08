@@ -61,7 +61,7 @@ describe("POST /auth/login", () => {
       .send({ email: "wrongemail@gmail.com", password: "wrongpasswor" })
       .expect(404);
 
-    expect(response.body.message).toBe("Your email is not valid");
+    expect(response.body.message).toBe("Your email does not exist");
     expect(response.body.auth).toBe(false);
   });
 });

@@ -12,11 +12,11 @@ export default class Routes {
   }
 
   private configureRoutes(app: Application) {
-    app.get(
-      "/workshop",
-      Routes.jwtHandler.verifyJwt,
-      this.workshopControllers.getWorkshopByuser
-    );
+    // app.get(
+    //   "/workshop",
+    //   Routes.jwtHandler.verifyJwt,
+    //   this.workshopControllers.getWorkshopByuser
+    // );
     app.post(
       "/workshop/create",
       Routes.jwtHandler.verifyJwt,
